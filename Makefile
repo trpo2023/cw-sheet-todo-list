@@ -1,13 +1,12 @@
 APP_NAME = sheet
+TEST_NAME = testing
 LIB_NAME = libsheet
 
 CC = g++
 
 CFLAGS = -Wall -Werror
 CPPFLAGS = -I src
-GTKFLAGS1 = `pkg-config gtk+-3.0 --cflags`
-GTKFLAGS2 = `pkg-config gtk+-3.0 --libs`
-SRC_EXT = cpp
+GTK+flags = `pkg-config --cflags --libs gtk+-3.0`
 
 BIN_DIR = bin
 OBJ_DIR = obj
@@ -16,6 +15,7 @@ SRC_DIR = src
 APP_PATH = $(BIN_DIR)/$(APP_NAME)
 LIB_PATH = $(OBJ_DIR)/$(SRC_DIR)/$(LIB_NAME)/$(LIB_NAME).a
 
+SRC_EXT = cpp
 APP_RUN = $(BIN_DIR)/./$(APP_NAME)
 
 APP_SOURCES = $(shell find $(SRC_DIR)/$(APP_NAME) -name '*.$(SRC_EXT)')
@@ -32,25 +32,20 @@ all: $(APP_PATH)
 -include $(DEPS)
 
 $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
-	$(CC) $(GTKFLAGS1) $(CFLAGS) $(CPPFLAGS) -o $@ $^ $(GTKFLAGS2)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^ $(GTK+flags)
 
 $(LIB_PATH): $(LIB_OBJECTS)
 	ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: %.cpp
-	$(CC) $(GTKFLAGS1) -c $(CFLAGS) $(CFLAGS_TEST) $< -o $@ $(GTKFLAGS2)
+	$(CC) -c $(CFLAGS) $(CFLAGS_TEST) $< -o $@
 
-.Shee: clean
+.Geom: clean
 clean:
 	rm -f $(APP_PATH) $(TEST_PATH) $(LIB_PATH) 
 	rm -rf $(DEPS) $(APP_OBJECTS) $(LIB_OBJECTS)
+	rm -rf $(TEST_OBJ_PATH)/*.*
 	
-.Shee: run
+.Geom: run
 run: $(APP_RUN)
 	$(APP_RUN)
-
-.Shee: start
-start:
-	make clean
-	make
-	make run
