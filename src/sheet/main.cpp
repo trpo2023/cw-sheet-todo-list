@@ -4,8 +4,6 @@
 #include <libsheet/functions.h>
 #include <string>
 
-const std::string TASK_FILE = "tasks.txt";
-
 GtkWidget* task_list_box;
 
 int main(int argc, char* argv[])
