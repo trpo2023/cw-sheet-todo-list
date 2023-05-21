@@ -1,4 +1,12 @@
+#include <fstream>
 #include <functions.h>
+#include <gtk/gtk.h>
+#include <iostream>
+#include <string>
+
+extern const std::string TASK_FILE;
+
+extern GtkWidget* task_list_box;
 
 void update_task_list();
 

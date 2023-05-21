@@ -1,8 +1,6 @@
 #pragma once
 
-#include <fstream>
 #include <gtk/gtk.h>
-#include <iostream>
 
 void update_task_list();
 
