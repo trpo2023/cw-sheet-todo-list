@@ -57,3 +57,31 @@ void update_task_status(GtkWidget* button, gpointer data)
 
     update_task_list();
 }
+
+void delete_task(GtkWidget* button, gpointer data)
+{
+    // Get the index of the task from the button's data
+    int index = GPOINTER_TO_INT(data);
+
+    // Read tasks from file and remove the selected task
+    std::ifstream file(TASK_FILE);
+    std::string line;
+    std::string tasks;
+    int current_index = 0;
+    while (std::getline(file, line)) {
+        if (line.empty())
+            continue;
+
+        if (current_index != index)
+            tasks += line + "\n";
+
+        current_index++;
+    }
+    file.close();
+
+    std::ofstream outfile(TASK_FILE);
+    outfile << tasks;
+    outfile.close();
+
+    update_task_list();
+}
