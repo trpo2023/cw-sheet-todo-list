@@ -1,12 +1,12 @@
 APP_NAME = sheet
-TEST_NAME = testing
 LIB_NAME = libsheet
 
 CC = g++
 
 CFLAGS = -Wall -Werror
 CPPFLAGS = -I src
-GTK+flags = `pkg-config --cflags --libs gtk+-3.0`
+PACKAGE = `pkg-config gtk+-3.0 --cflags`
+LIBS = `pkg-config gtk+-3.0 --libs`
 
 BIN_DIR = bin
 OBJ_DIR = obj
@@ -32,19 +32,18 @@ all: $(APP_PATH)
 -include $(DEPS)
 
 $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $^ $(GTK+flags)
+	$(CC) $(CFLAGS) $(PACKAGE) $(CPPFLAGS) -o $@ $^ $(LIBS)
 
 $(LIB_PATH): $(LIB_OBJECTS)
 	ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: %.cpp
-	$(CC) -c $(CFLAGS) $(CFLAGS_TEST) $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(PACKAGE) -c $< -o $@
 
 .Geom: clean
 clean:
-	rm -f $(APP_PATH) $(TEST_PATH) $(LIB_PATH) 
+	rm -f $(APP_PATH) $(LIB_PATH) 
 	rm -rf $(DEPS) $(APP_OBJECTS) $(LIB_OBJECTS)
-	rm -rf $(TEST_OBJ_PATH)/*.*
 	
 .Geom: run
 run: $(APP_RUN)
