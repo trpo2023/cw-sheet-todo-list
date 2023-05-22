@@ -5,7 +5,7 @@ TEST_NAME = testing
 CC = g++
 
 CFLAGS = -Wall -Werror
-CPPFLAGS = -I src -I thirdparty
+CPPFLAGS = -I src -I thirdparty -I thirdparty/gtk-3.0
 CFLAGS_TEST = -I src -I thirdparty
 PACKAGE = `pkg-config gtk+-3.0 --cflags`
 LIBS = `pkg-config gtk+-3.0 --libs`
