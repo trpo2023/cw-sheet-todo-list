@@ -47,7 +47,7 @@ $(LIB_PATH): $(LIB_OBJECTS)
 	ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: %.cpp
-	$(CC) $(CFLAGS) $(CFLAGS_TEST) -c $< -o $@ $(PACKAGE)
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(CFLAGS_TEST) -c $< -o $@ $(PACKAGE)
 
 .Shee: test_comp
 test_comp: $(TEST_PATH)
