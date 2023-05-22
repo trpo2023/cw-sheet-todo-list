@@ -1,6 +1,9 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include <string>
+
+int checking_for_errors(std::string str);
 
 void update_task_list();
 

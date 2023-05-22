@@ -11,3 +11,12 @@ jobs:
 
       - name: Check codestyle
         run: git ls-files *.{cpp, h} | xargs clang-format -i --verbose && git diff --exit-code
+        
+      - name: Build application
+        run: make
+
+      - name: Test compilation
+        run: make test_comp
+      
+      - name: Run test
+        run: make test_show

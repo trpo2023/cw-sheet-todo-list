@@ -1,35 +1,46 @@
-#include <fstream>
 #include "functions.h"
+#include <fstream>
 #include <gtk/gtk.h>
 #include <iostream>
 #include <string>
 
-extern GtkWidget* task_list_box;
+std::string File_name = "tasks.txt";
+GtkWidget* task_list_box;
+
+int checking_for_errors(std::string str)
+{
+    if (str != "")
+        return 0;
+    else
+        return 1;
+}
 
 void update_task_list();
 
 void add_new_task(GtkWidget* widget, gpointer data)
 {
     const gchar* task_name = gtk_entry_get_text(GTK_ENTRY(data));
+    std::string str = task_name;
+    int check = checking_for_errors(str);
 
-    if (task_name && *task_name) {
-        std::ofstream file("tasks.txt", std::ios_base::app);
+    if (check == 0) {
+        std::ofstream file(File_name, std::ios_base::app);
         file << "0/" << task_name << "\n";
         file.close();
 
         gtk_entry_set_text(GTK_ENTRY(data), "");
 
         update_task_list();
+    } else {
+        gtk_entry_set_text(GTK_ENTRY(data), "Ошибка! Поле ввода пустое!");
     }
 }
 
 void update_task_status(GtkWidget* button, gpointer data)
 {
-    // Get the index of the task from the button's data
     int index = GPOINTER_TO_INT(data);
 
-    // Read tasks from file and update the selected task's status
-    std::ifstream file("tasks.txt");
+    std::ifstream file(File_name);
     std::string line;
     std::string tasks;
     int current_index = 0;
@@ -41,7 +52,7 @@ void update_task_status(GtkWidget* button, gpointer data)
         std::string task_name = line.substr(2);
 
         if (current_index == index)
-            status = 1 - status; // Toggle the status
+            status = 1 - status;
 
         tasks += std::to_string(status) + "/" + task_name + "\n";
 
@@ -49,7 +60,7 @@ void update_task_status(GtkWidget* button, gpointer data)
     }
     file.close();
 
-    std::ofstream outfile("tasks.txt");
+    std::ofstream outfile(File_name);
     outfile << tasks;
     outfile.close();
 
@@ -58,11 +69,9 @@ void update_task_status(GtkWidget* button, gpointer data)
 
 void delete_task(GtkWidget* button, gpointer data)
 {
-    // Get the index of the task from the button's data
     int index = GPOINTER_TO_INT(data);
 
-    // Read tasks from file and remove the selected task
-    std::ifstream file("tasks.txt");
+    std::ifstream file(File_name);
     std::string line;
     std::string tasks;
     int current_index = 0;
@@ -77,7 +86,7 @@ void delete_task(GtkWidget* button, gpointer data)
     }
     file.close();
 
-    std::ofstream outfile("tasks.txt");
+    std::ofstream outfile(File_name);
     outfile << tasks;
     outfile.close();
 
@@ -86,15 +95,13 @@ void delete_task(GtkWidget* button, gpointer data)
 
 void update_task_list()
 {
-    // Clear the existing task list
     GList *children, *iter;
     children = gtk_container_get_children(GTK_CONTAINER(task_list_box));
     for (iter = children; iter != NULL; iter = g_list_next(iter))
         gtk_widget_destroy(GTK_WIDGET(iter->data));
     g_list_free(children);
 
-    // Read tasks from file and display outstanding tasks
-    std::ifstream file("tasks.txt");
+    std::ifstream file(File_name);
     std::string line;
     int index = 0;
     while (std::getline(file, line)) {
