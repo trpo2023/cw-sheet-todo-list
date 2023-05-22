@@ -5,15 +5,17 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-20.04
-
+    
     steps:
       - uses: actions/checkout@v2
 
       - name: Check codestyle
-        run: git ls-files *.{cpp, h} | xargs clang-format -i --verbose && git diff --exit-code
+        run: git ls-files *.{cpp,h} | xargs clang-format -i --verbose && git diff --exit-code
         
       - name: Build application
-        run: make
+        run: |
+          export LD_LIBRARY_PATH=$(GITHUB_WORKSPACE)/thirdparty:$LD_LIBRARY_PATH
+          make
 
       - name: Test compilation
         run: make test_comp
