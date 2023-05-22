@@ -3,3 +3,4 @@
 bin/sheet
 *.a
 *.o
+*.txt
