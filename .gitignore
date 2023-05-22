@@ -1,6 +1,7 @@
 .vscode/c_cpp_properties.json
 .vscode/settings.json
 bin/sheet
+bin/testing
 *.a
 *.o
 *.txt
