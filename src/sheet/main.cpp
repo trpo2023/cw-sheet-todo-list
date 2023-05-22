@@ -1,10 +1,9 @@
 #include <fstream>
 #include <gtk/gtk.h>
 #include <iostream>
+#include <libsheet/functions.cpp>
 #include <libsheet/functions.h>
 #include <string>
-
-GtkWidget* task_list_box;
 
 int main(int argc, char* argv[])
 {
@@ -40,7 +39,6 @@ int main(int argc, char* argv[])
             add_button, "clicked", G_CALLBACK(add_new_task), task_entry);
     gtk_box_pack_start(GTK_BOX(vbox), add_button, FALSE, FALSE, 0);
 
-    // Create a scrolled window for the task list
     GtkWidget* scrolled_window = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(
             GTK_SCROLLED_WINDOW(scrolled_window),
