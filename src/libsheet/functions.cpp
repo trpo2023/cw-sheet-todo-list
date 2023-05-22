@@ -5,7 +5,7 @@
 #include <string>
 
 std::string File_name = "tasks.txt";
-extern GtkWidget* task_list_box;
+GtkWidget* task_list_box;
 
 int checking_for_errors(std::string str)
 {
