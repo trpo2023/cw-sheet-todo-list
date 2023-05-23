@@ -9,7 +9,7 @@ GtkWidget* task_list_box;
 
 int checking_for_errors(std::string str)
 {
-    if (str != "")
+    if (str != "" && str != "Ошибка! Поле ввода пустое!")
         return 0;
     else
         return 1;
