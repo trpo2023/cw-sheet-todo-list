@@ -3,7 +3,9 @@
 #include <gtk/gtk.h>
 #include <string>
 
-int checking_for_errors(std::string str);
+int checking_entry(std::string str);
+
+int checking_is_open_file(std::string File_name);
 
 void update_task_list();
 
